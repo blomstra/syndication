@@ -1,5 +1,5 @@
 {
-    "name": "ianm/syndication",
+    "name": "blomstra/syndication",
     "description": "Brings RSS and Atom feeds to Flarum",
     "license": "CECILL-B",
     "type": "flarum-extension",
@@ -21,6 +21,10 @@
             "name": "IanM",
             "role": "Developer",
             "homepage": "https://discuss.flarum.org/u/ianm"
+        },
+        {
+            "name": "Blomstra",
+            "role": "Developer"
         }
     ],
     "require": {
