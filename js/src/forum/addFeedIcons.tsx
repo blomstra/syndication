@@ -53,11 +53,11 @@ export default function addFeedIcons() {
     const url = app.forum.attribute('baseUrl') + '/' + format + '/u/' + this.user.username() + '/posts';
 
     items.add(
-        'rss-feed',
-        <LinkButton icon="fas fa-rss" href={url} external={true} target="_blank">
-          {app.translator.trans('ianm-syndication.forum.discussion.feed_link')}
-        </LinkButton>,
-        40
+      'rss-feed',
+      <LinkButton icon="fas fa-rss" href={url} external={true} target="_blank">
+        {app.translator.trans('ianm-syndication.forum.discussion.feed_link')}
+      </LinkButton>,
+      40
     );
   });
 }
