@@ -16,6 +16,9 @@
             <description><![CDATA[{!! $entry['content'] !!}]]></description>
             <guid isPermaLink="true">{{ $entry['id'] }}</guid>
             <pubDate>{{ $entry['pubdate']->format(DateTime::RSS) }}</pubDate>
+            @foreach ($entry['tags'] as $tag)
+                <category>{{ $tag }}</category>
+            @endforeach
         </item>
         @endforeach
 

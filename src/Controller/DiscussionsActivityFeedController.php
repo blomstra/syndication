@@ -43,10 +43,12 @@ use Flarum\Api\Client as ApiClient;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
+use Flarum\Tags\Tag;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use IanM\FlarumFeeds\Models\DiscussionTag;
 
 /**
  * Displays feeds for topics, either last updated or created, possibly filtered by tag.
@@ -88,7 +90,9 @@ class DiscussionsActivityFeedController extends AbstractFeedController
 
         $sort = Arr::pull($queryParams, 'sort');
         $q = Arr::pull($queryParams, 'q');
-        $tags = $this->getTags($request);
+
+        //FIXME: not sure this should be used?
+        $tags = [];
 
         if ($tags != null) {
             $tags_search = [];
@@ -114,8 +118,16 @@ class DiscussionsActivityFeedController extends AbstractFeedController
         $lastModified = null;
 
         foreach ((array) $last_discussions->data as $discussion) {
+
             if ($discussion->type != 'discussions') {
                 continue;
+            }
+
+            $tagIds = DiscussionTag::appliedTags($discussion->id)->pluck('tag_id')->toArray();
+            $tagNames = Tag::select('name')->whereIn('id', $tagIds)->pluck('name')->toArray();
+
+            if( !empty($tagNames) ) {
+                $tags = $tagNames;
             }
 
             if ($this->lastTopics && isset($discussion->relationships->firstPost)) {
@@ -132,6 +144,7 @@ class DiscussionsActivityFeedController extends AbstractFeedController
             } else {
                 $author = isset($discussion->relationships->lastPostedUser) ? $this->getRelationship($last_discussions, $discussion->relationships->lastPostedUser)->username : '[deleted]';
             }
+
             $entries[] = [
                 'title'       => $discussion->attributes->title,
                 'content'     => $this->summarize($this->stripHTML($content->contentHtml)),
@@ -139,6 +152,7 @@ class DiscussionsActivityFeedController extends AbstractFeedController
                 'link'        => $this->url->to('forum')->route('discussion', ['id' => $discussion->attributes->slug, 'near' => $content->number]),
                 'pubdate'     => $this->parseDate($this->lastTopics ? $discussion->attributes->createdAt : $discussion->attributes->lastPostedAt),
                 'author'      => $author,
+                'tags'        => $tagNames,
             ];
 
             $modified = $this->parseDate($this->lastTopics ? $discussion->attributes->createdAt : $discussion->attributes->lastPostedAt);
@@ -149,6 +163,7 @@ class DiscussionsActivityFeedController extends AbstractFeedController
         }
 
         // TODO real tag names
+        // FIXME: tags shouldn't be in the feed description, it should be in each item
         if ($this->lastTopics) {
             if (empty($tags)) {
                 $title = $this->translator->trans('ianm-syndication.forum.feeds.titles.main_d_title', ['{forum_name}' => $forum->attributes->title, '{forum_desc}' => $forum->attributes->description]);

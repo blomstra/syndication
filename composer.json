@@ -1,5 +1,5 @@
 {
-    "name": "blomstra/syndication",
+    "name": "ianm/syndication",
     "description": "Brings RSS and Atom feeds to Flarum",
     "license": "CECILL-B",
     "type": "flarum-extension",
@@ -53,5 +53,8 @@
         "psr-4": {
             "IanM\\FlarumFeeds\\": "src/"
         }
+    },
+    "require-dev": {
+        "flarum/tags": "*"
     }
 }

@@ -19,6 +19,9 @@
         @if ($html)
             type="html"
         @endif><![CDATA[{!! $entry['content'] !!}]]></content>
+        @foreach ($entry['tags'] as $tag)
+        <category term="{{ $tag }}" />
+        @endforeach
         <author>
             <name><![CDATA[{{ $entry['author'] }}]]></name>
         </author>
