@@ -91,7 +91,6 @@ class DiscussionsActivityFeedController extends AbstractFeedController
         $sort = Arr::pull($queryParams, 'sort');
         $q = Arr::pull($queryParams, 'q');
 
-        //FIXME: not sure this should be used?
         $tags = [];
 
         if ($tags != null) {
@@ -125,12 +124,11 @@ class DiscussionsActivityFeedController extends AbstractFeedController
             }
 
             $tagIds = $includeTags ? DiscussionTag::appliedTags($discussion->id)->pluck('tag_id')->toArray() : [];
-            $tagNames = $includeTags ? Tag::select('name')->whereIn('id', $tagIds)->pluck('name')->toArray() : [];
-            $tagText = 'In tags: ' . implode(', ', $tagNames);
+            $tagNames = [];
 
-            //if( !empty($tagNames) ) {
-            //    $tags = $tagNames;
-            //}
+            if( !empty($tagIds) ) {
+                $tagNames = $includeTags ? Tag::select('name')->whereIn('id', $tagIds)->pluck('name')->toArray() : [];
+            }
 
             if ($this->lastTopics && isset($discussion->relationships->firstPost)) {
                 $content = $this->getRelationship($last_discussions, $discussion->relationships->firstPost);
@@ -165,7 +163,6 @@ class DiscussionsActivityFeedController extends AbstractFeedController
         }
 
         // TODO real tag names
-        // FIXME: tags shouldn't be in the feed description, it should be in each item
         if ($this->lastTopics) {
             if (empty($tags)) {
                 $title = $this->translator->trans('ianm-syndication.forum.feeds.titles.main_d_title', ['{forum_name}' => $forum->attributes->title, '{forum_desc}' => $forum->attributes->description]);
