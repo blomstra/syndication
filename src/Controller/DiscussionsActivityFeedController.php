@@ -113,6 +113,7 @@ class DiscussionsActivityFeedController extends AbstractFeedController
         $actor = $this->getActor($request);
         $forum = $this->getForumDocument($request, $actor);
         $last_discussions = $this->getDocument($request, $actor, $params);
+        $includeTags = $this->getSetting('include-tags');
 
         $entries = [];
         $lastModified = null;
@@ -123,12 +124,13 @@ class DiscussionsActivityFeedController extends AbstractFeedController
                 continue;
             }
 
-            $tagIds = DiscussionTag::appliedTags($discussion->id)->pluck('tag_id')->toArray();
-            $tagNames = Tag::select('name')->whereIn('id', $tagIds)->pluck('name')->toArray();
+            $tagIds = $includeTags ? DiscussionTag::appliedTags($discussion->id)->pluck('tag_id')->toArray() : [];
+            $tagNames = $includeTags ? Tag::select('name')->whereIn('id', $tagIds)->pluck('name')->toArray() : [];
+            $tagText = 'In tags: ' . implode(', ', $tagNames);
 
-            if( !empty($tagNames) ) {
-                $tags = $tagNames;
-            }
+            //if( !empty($tagNames) ) {
+            //    $tags = $tagNames;
+            //}
 
             if ($this->lastTopics && isset($discussion->relationships->firstPost)) {
                 $content = $this->getRelationship($last_discussions, $discussion->relationships->firstPost);

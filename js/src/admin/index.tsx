@@ -21,6 +21,12 @@ app.initializers.add('ianm-syndication', () => {
       help: app.translator.trans('ianm-syndication.admin.settings.html.help'),
     })
     .registerSetting({
+      label: app.translator.trans('ianm-syndication.admin.settings.include-tags.label'),
+      setting: 'ianm-syndication.plugin.include-tags',
+      type: 'boolean',
+      help: app.translator.trans('ianm-syndication.admin.settings.include-tags.help'),
+    })
+    .registerSetting({
       label: app.translator.trans('ianm-syndication.admin.settings.entries-count'),
       setting: 'ianm-syndication.plugin.entries-count',
       type: 'number',
