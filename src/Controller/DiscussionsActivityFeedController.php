@@ -90,7 +90,6 @@ class DiscussionsActivityFeedController extends AbstractFeedController
 
         $sort = Arr::pull($queryParams, 'sort');
         $q = Arr::pull($queryParams, 'q');
-
         $tags = $this->getTags($request);
 
         if ($tags != null) {
