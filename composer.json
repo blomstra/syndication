@@ -1,5 +1,5 @@
 {
-    "name": "ianm/syndication",
+    "name": "blomstra/syndication",
     "description": "Brings RSS and Atom feeds to Flarum",
     "license": "CECILL-B",
     "type": "flarum-extension",
