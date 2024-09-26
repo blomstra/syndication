@@ -38,6 +38,9 @@ ianm-syndication:
       html:
         label: "Formatted Feeds"
         help: "Check this to keep the HTML in the generated feeds. If disabled, the feeds will be in plain text."
+      include-tags:
+        label: "Include tags"
+        help: "If enabled, tags will be included as categories."
       entries-count: "How many entries per feed?"
       forum-icons:
         label: Show Atom/RSS feed links on the forum

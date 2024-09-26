@@ -43,7 +43,9 @@ use Flarum\Api\Client as ApiClient;
 use Flarum\Http\Exception\RouteNotFoundException;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
+use Flarum\Tags\Tag;
 use Flarum\User\User;
+use IanM\FlarumFeeds\Models\DiscussionTag;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -93,10 +95,18 @@ class DiscussionFeedController extends AbstractFeedController
 
         $entries = [];
         $lastModified = null;
+        $includeTags = $this->getSetting('include-tags');
 
         foreach ($posts->data as $post) {
             if ($post->attributes->contentType != 'comment') {
                 continue;
+            }
+
+            $tagIds = $includeTags ? DiscussionTag::appliedTags($discussion->id)->pluck('tag_id')->toArray() : [];
+            $tagNames = [];
+
+            if( !empty($tagIds) ) {
+                $tagNames = $includeTags ? Tag::select('name')->whereIn('id', $tagIds)->pluck('name')->toArray() : [];
             }
 
             $entries[] = [
@@ -106,6 +116,7 @@ class DiscussionFeedController extends AbstractFeedController
                 'id'          => $this->url->to('forum')->route('discussion', ['id' => $discussion->id, 'near' => $post->attributes->number]),
                 'pubdate'     => $this->parseDate($post->attributes->createdAt),
                 'author'      => isset($post->relationships->user) ? $this->getRelationship($posts, $post->relationships->user)->username : '[deleted]',
+                'tags'        => $tagNames,
             ];
 
             $modified = $this->parseDate(Arr::get($post->attributes, 'editedAt', $post->attributes->createdAt));

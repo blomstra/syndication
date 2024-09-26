@@ -43,10 +43,12 @@ use Flarum\Api\Client as ApiClient;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
+use Flarum\Tags\Tag;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use IanM\FlarumFeeds\Models\DiscussionTag;
 
 /**
  * Displays feeds for topics, either last updated or created, possibly filtered by tag.
@@ -109,13 +111,22 @@ class DiscussionsActivityFeedController extends AbstractFeedController
         $actor = $this->getActor($request);
         $forum = $this->getForumDocument($request, $actor);
         $last_discussions = $this->getDocument($request, $actor, $params);
+        $includeTags = $this->getSetting('include-tags');
 
         $entries = [];
         $lastModified = null;
 
         foreach ((array) $last_discussions->data as $discussion) {
+
             if ($discussion->type != 'discussions') {
                 continue;
+            }
+
+            $tagIds = $includeTags ? DiscussionTag::appliedTags($discussion->id)->pluck('tag_id')->toArray() : [];
+            $tagNames = [];
+
+            if( !empty($tagIds) ) {
+                $tagNames = $includeTags ? Tag::select('name')->whereIn('id', $tagIds)->pluck('name')->toArray() : [];
             }
 
             if ($this->lastTopics && isset($discussion->relationships->firstPost)) {
@@ -132,6 +143,7 @@ class DiscussionsActivityFeedController extends AbstractFeedController
             } else {
                 $author = isset($discussion->relationships->lastPostedUser) ? $this->getRelationship($last_discussions, $discussion->relationships->lastPostedUser)->username : '[deleted]';
             }
+
             $entries[] = [
                 'title'       => $discussion->attributes->title,
                 'content'     => $this->summarize($this->stripHTML($content->contentHtml)),
@@ -139,6 +151,7 @@ class DiscussionsActivityFeedController extends AbstractFeedController
                 'link'        => $this->url->to('forum')->route('discussion', ['id' => $discussion->attributes->slug, 'near' => $content->number]),
                 'pubdate'     => $this->parseDate($this->lastTopics ? $discussion->attributes->createdAt : $discussion->attributes->lastPostedAt),
                 'author'      => $author,
+                'tags'        => $tagNames,
             ];
 
             $modified = $this->parseDate($this->lastTopics ? $discussion->attributes->createdAt : $discussion->attributes->lastPostedAt);
