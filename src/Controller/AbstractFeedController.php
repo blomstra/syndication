@@ -157,7 +157,7 @@ abstract class AbstractFeedController implements RequestHandlerInterface
      */
     protected function getSetting($key)
     {
-        return $this->settings->get('ianm-syndication.plugin.'.$key);
+        return $this->settings->get('blomstra-syndication.plugin.'.$key);
     }
 
     /**

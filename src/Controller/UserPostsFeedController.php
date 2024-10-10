@@ -82,7 +82,7 @@ class UserPostsFeedController extends AbstractFeedController
             $entries[] = [
                 'title'       => $post->discussion->user_id === $user->id
                     ? $post->discussion->title
-                    : $this->translator->trans('ianm-syndication.forum.feeds.entries.user_posts.title_reply', ['{discussion}' => $post->discussion->title]),
+                    : $this->translator->trans('blomstra-syndication.forum.feeds.entries.user_posts.title_reply', ['{discussion}' => $post->discussion->title]),
                 'content'     => $this->summarize($this->stripHTML($post->formatContent($request))),
                 'link'        => $this->url->to('forum')->route('discussion', ['id' => $slugger->forResource(Discussion::class)->toSlug($post->discussion), 'near' => $post->number]),
                 'id'          => $this->url->to('forum')->route('discussion', ['id' => $post->discussion->id, 'near' => $post->number]),
@@ -98,8 +98,8 @@ class UserPostsFeedController extends AbstractFeedController
         }
 
         return [
-            'title'        => $this->translator->trans('ianm-syndication.forum.feeds.titles.user_title', ['{username}' => $username]),
-            'description'  => $this->translator->trans('ianm-syndication.forum.feeds.titles.user_subtitle', ['{username}' => $username]),
+            'title'        => $this->translator->trans('blomstra-syndication.forum.feeds.titles.user_title', ['{username}' => $username]),
+            'description'  => $this->translator->trans('blomstra-syndication.forum.feeds.titles.user_subtitle', ['{username}' => $username]),
             'link'         => $this->url->to('forum')->route('user', ['username' => $username]),
             'pubDate'      => new \DateTime(),
             'lastModified' => $lastModified,

@@ -66,8 +66,8 @@ class AddClientLinks
 
     public function __invoke(Document $view, ServerRequestInterface $request)
     {
-        $this->addAtomFeed($view, 'atom', $this->translator->trans('ianm-syndication.forum.autodiscovery.forum_activity'));
-        $this->addAtomFeed($view, 'atom/discussions', $this->translator->trans('ianm-syndication.forum.autodiscovery.forum_new_discussions'));
+        $this->addAtomFeed($view, 'atom', $this->translator->trans('blomstra-syndication.forum.autodiscovery.forum_activity'));
+        $this->addAtomFeed($view, 'atom/discussions', $this->translator->trans('blomstra-syndication.forum.autodiscovery.forum_new_discussions'));
 
         $path = $request->getUri()->getPath();
         $route = $request->getAttribute('routeName');
@@ -77,18 +77,18 @@ class AddClientLinks
             // TODO use real tag name
             $tag_name = str_replace('/t/', '', $path);
 
-            $this->addAtomFeed($view, 'atom'.$path, $this->translator->trans('ianm-syndication.forum.autodiscovery.tag_activity', ['{tag}' => $tag_name]));
-            $this->addAtomFeed($view, 'atom'.$path.'/discussions', $this->translator->trans('ianm-syndication.forum.autodiscovery.tag_new_discussions', ['{tag}' => $tag_name]));
+            $this->addAtomFeed($view, 'atom'.$path, $this->translator->trans('blomstra-syndication.forum.autodiscovery.tag_activity', ['{tag}' => $tag_name]));
+            $this->addAtomFeed($view, 'atom'.$path.'/discussions', $this->translator->trans('blomstra-syndication.forum.autodiscovery.tag_new_discussions', ['{tag}' => $tag_name]));
         } elseif ($route === 'discussion') {
             // Removes the post number (if any). Reverse routing would be better.
             $path_parts = explode('/', $path);
 
             // TODO add discussion name?
-            $this->addAtomFeed($view, 'atom/d/'.$path_parts[2], $this->translator->trans('ianm-syndication.forum.autodiscovery.discussion_last_posts'));
+            $this->addAtomFeed($view, 'atom/d/'.$path_parts[2], $this->translator->trans('blomstra-syndication.forum.autodiscovery.discussion_last_posts'));
         } elseif ($route === 'user') {
             $username = Arr::get($request->getQueryParams(), 'username');
 
-            $this->addAtomFeed($view, "atom/u/$username/posts", $this->translator->trans('ianm-syndication.forum.autodiscovery.user_last_posts'));
+            $this->addAtomFeed($view, "atom/u/$username/posts", $this->translator->trans('blomstra-syndication.forum.autodiscovery.user_last_posts'));
         }
     }
 

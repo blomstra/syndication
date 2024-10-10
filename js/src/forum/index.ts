@@ -1,6 +1,6 @@
 import app from 'flarum/forum/app';
 import addFeedIcons from './addFeedIcons';
 
-app.initializers.add('ianm-syndication', () => {
+app.initializers.add('blomstra-syndication', () => {
   addFeedIcons();
 });

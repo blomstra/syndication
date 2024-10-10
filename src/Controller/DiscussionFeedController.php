@@ -127,8 +127,8 @@ class DiscussionFeedController extends AbstractFeedController
         }
 
         return [
-            'title'        => $this->translator->trans('ianm-syndication.forum.feeds.titles.discussion_title', ['{discussion_name}' => $discussion->attributes->title]),
-            'description'  => $this->translator->trans('ianm-syndication.forum.feeds.titles.discussion_subtitle', ['{discussion_name}' => $discussion->attributes->title]),
+            'title'        => $this->translator->trans('blomstra-syndication.forum.feeds.titles.discussion_title', ['{discussion_name}' => $discussion->attributes->title]),
+            'description'  => $this->translator->trans('blomstra-syndication.forum.feeds.titles.discussion_subtitle', ['{discussion_name}' => $discussion->attributes->title]),
             'link'         => $this->url->to('forum')->route('discussion', ['id' => $discussion->attributes->slug]),
             'pubDate'      => new \DateTime(),
             'lastModified' => $lastModified,

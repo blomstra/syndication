@@ -1,48 +1,48 @@
 import app from 'flarum/admin/app';
 
-app.initializers.add('ianm-syndication', () => {
+app.initializers.add('blomstra-syndication', () => {
   const typeOptions = {
     atom: 'atom',
     rss: 'rss',
   };
 
   app.extensionData
-    .for('ianm-syndication')
+    .for('blomstra-syndication')
     .registerSetting({
-      label: app.translator.trans('ianm-syndication.admin.settings.full-text.label'),
-      setting: 'ianm-syndication.plugin.full-text',
+      label: app.translator.trans('blomstra-syndication.admin.settings.full-text.label'),
+      setting: 'blomstra-syndication.plugin.full-text',
       type: 'boolean',
-      help: app.translator.trans('ianm-syndication.admin.settings.full-text.help'),
+      help: app.translator.trans('blomstra-syndication.admin.settings.full-text.help'),
     })
     .registerSetting({
-      label: app.translator.trans('ianm-syndication.admin.settings.html.label'),
-      setting: 'ianm-syndication.plugin.html',
+      label: app.translator.trans('blomstra-syndication.admin.settings.html.label'),
+      setting: 'blomstra-syndication.plugin.html',
       type: 'boolean',
-      help: app.translator.trans('ianm-syndication.admin.settings.html.help'),
+      help: app.translator.trans('blomstra-syndication.admin.settings.html.help'),
     })
     .registerSetting({
-      label: app.translator.trans('ianm-syndication.admin.settings.include-tags.label'),
-      setting: 'ianm-syndication.plugin.include-tags',
+      label: app.translator.trans('blomstra-syndication.admin.settings.include-tags.label'),
+      setting: 'blomstra-syndication.plugin.include-tags',
       type: 'boolean',
-      help: app.translator.trans('ianm-syndication.admin.settings.include-tags.help'),
+      help: app.translator.trans('blomstra-syndication.admin.settings.include-tags.help'),
     })
     .registerSetting({
-      label: app.translator.trans('ianm-syndication.admin.settings.entries-count'),
-      setting: 'ianm-syndication.plugin.entries-count',
+      label: app.translator.trans('blomstra-syndication.admin.settings.entries-count'),
+      setting: 'blomstra-syndication.plugin.entries-count',
       type: 'number',
       placeholder: 100,
       min: 1,
     })
     .registerSetting({
-      label: app.translator.trans('ianm-syndication.admin.settings.forum-icons.label'),
-      help: app.translator.trans('ianm-syndication.admin.settings.forum-icons.help'),
-      setting: 'ianm-syndication.plugin.forum-icons',
+      label: app.translator.trans('blomstra-syndication.admin.settings.forum-icons.label'),
+      help: app.translator.trans('blomstra-syndication.admin.settings.forum-icons.help'),
+      setting: 'blomstra-syndication.plugin.forum-icons',
       type: 'boolean',
     })
     .registerSetting({
-      label: app.translator.trans('ianm-syndication.admin.settings.forum-link-format.label'),
-      help: app.translator.trans('ianm-syndication.admin.settings.forum-link-format.help'),
-      setting: 'ianm-syndication.plugin.forum-format',
+      label: app.translator.trans('blomstra-syndication.admin.settings.forum-link-format.label'),
+      help: app.translator.trans('blomstra-syndication.admin.settings.forum-link-format.help'),
+      setting: 'blomstra-syndication.plugin.forum-format',
       type: 'select',
       options: typeOptions,
       default: 'atom',

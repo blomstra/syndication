@@ -75,11 +75,11 @@ return [
     (new Extend\View())->namespace('flarum-feeds', __DIR__.'/views'),
 
     (new Extend\Settings())
-        ->default('ianm-syndication.plugin.html', false)
-        ->default('ianm-syndication.plugin.full-text', false)
-        ->default('ianm-syndication.plugin.entries-count', 100)
-        ->default('ianm-syndication.plugin.forum-format', 'atom')
-        ->default('ianm-syndication.plugin.forum-icons', false)
-        ->serializeToForum('ianm-syndication.plugin.forum-format', 'ianm-syndication.plugin.forum-format')
-        ->serializeToForum('ianm-syndication.plugin.forum-icons', 'ianm-syndication.plugin.forum-icons', 'boolVal'),
+        ->default('blomstra-syndication.plugin.html', false)
+        ->default('blomstra-syndication.plugin.full-text', false)
+        ->default('blomstra-syndication.plugin.entries-count', 100)
+        ->default('blomstra-syndication.plugin.forum-format', 'atom')
+        ->default('blomstra-syndication.plugin.forum-icons', false)
+        ->serializeToForum('blomstra-syndication.plugin.forum-format', 'blomstra-syndication.plugin.forum-format')
+        ->serializeToForum('blomstra-syndication.plugin.forum-icons', 'blomstra-syndication.plugin.forum-icons', 'boolVal'),
 ];
